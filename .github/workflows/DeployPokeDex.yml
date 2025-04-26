@@ -21,27 +21,25 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # Single deploy job since we're just deploying
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: lts/*
+          node-version: 'lts/*'
           cache: 'npm'
+
       - name: Install dependencies
         working-directory: ./PokeDexAssignment
         run: npm ci
 
       - name: Build
-        run: npm run build
         working-directory: ./PokeDexAssignment
+        run: npm run build
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -49,8 +47,9 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload dist folder
-          path: './PokeDexAssignment/dist'
+          # point at your generated dist inside PokeDexAssignment
+          path: ./PokeDexAssignment/dist
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
