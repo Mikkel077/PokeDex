@@ -24,32 +24,28 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      steps:
+        - uses: actions/checkout@v4
 
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 'lts/*'
-          cache: 'npm'
+        - uses: actions/setup-node@v4
+          with:
+            node-version: 'lts/*'
+            cache: 'npm'
 
-      - name: Install dependencies
-        working-directory: ./PokeDexAssignment
-        run: npm ci
+        - name: Install dependencies
+          working-directory: ./PokeDexAssignment
+          run: npm ci
 
-      - name: Build
-        working-directory: ./PokeDexAssignment
-        run: npm run build
+        - name: Build
+          working-directory: ./PokeDexAssignment
+          run: npm run build
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
+        - uses: actions/configure-pages@v5
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          # point at your generated dist inside PokeDexAssignment
-          path: ./PokeDexAssignment/dist
+        - name: Upload artifact
+          uses: actions/upload-pages-artifact@v3
+          with:
+            path: ./PokeDexAssignment/dist
 
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+        - id: deployment
+          uses: actions/deploy-pages@v4
